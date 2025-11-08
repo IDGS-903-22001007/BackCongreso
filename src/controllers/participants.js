@@ -1,4 +1,4 @@
-import pool from '../db.js';
+import pool from '../db.js'; // <-- Importa la conexión a la BD
 
 export const getParticipants = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ export const getParticipants = async (req, res) => {
       return res.json(results);
     }
     const [results] = await pool.query('SELECT * FROM participants');
-    res.json(results);
+    res.json(results); // <-- Envía los resultados como JSON
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al obtener los participantes' });
