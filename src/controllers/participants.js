@@ -1,18 +1,18 @@
-import pool from '../db.js'; // <-- Importa la conexión a la BD
+import pool from '../db.js';
 
 export const getParticipants = async (req, res) => {
   try {
     const { q } = req.query;
     if (q) {
-      const query = q.toLowerCase();
+      const query = `%${q.toLowerCase()}%`;
       const [results] = await pool.query(
-        'SELECT * FROM participants WHERE LOWER(nombre) = ? OR LOWER(apellidos) = ?',
+        'SELECT * FROM participants WHERE LOWER(nombre) LIKE ? OR LOWER(apellidos) LIKE ?',
         [query, query]
       );
       return res.json(results);
     }
     const [results] = await pool.query('SELECT * FROM participants');
-    res.json(results); // <-- Envía los resultados como JSON
+    res.json(results);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al obtener los participantes' });
