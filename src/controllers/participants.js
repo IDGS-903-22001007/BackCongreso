@@ -4,9 +4,9 @@ export const getParticipants = async (req, res) => {
   try {
     const { q } = req.query;
     if (q) {
-      const query = `%${q.toLowerCase()}%`;
+      const query = q.toLowerCase();
       const [results] = await pool.query(
-        'SELECT * FROM participants WHERE LOWER(nombre) LIKE ? OR LOWER(apellidos) LIKE ?',
+        'SELECT * FROM participants WHERE LOWER(nombre) = ? OR LOWER(apellidos) = ?',
         [query, query]
       );
       return res.json(results);
